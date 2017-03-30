@@ -23,6 +23,7 @@
 
 @property (nonatomic, copy) NSString* label;
 @property (nonatomic) dispatch_group_t group;
+@property (nonatomic) NSInteger count;
 
 @end
 
@@ -64,11 +65,15 @@
 
 - (void)enter
 {
+    self.count++;
+    NSLog(@"%li enter %@", self.count, self.label);
     dispatch_group_enter(self.group);
 }
 
 - (void)leave
 {
+    self.count--;
+    NSLog(@"%li leave %@", self.count, self.label);
     dispatch_group_leave(self.group);
 }
 
