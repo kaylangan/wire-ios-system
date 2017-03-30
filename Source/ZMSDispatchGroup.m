@@ -66,14 +66,14 @@
 - (void)enter
 {
     self.count++;
-    NSLog(@"%li enter %@", self.count, self.label);
+//    NSLog(@"%li enter %@", self.count, self.label);
     dispatch_group_enter(self.group);
 }
 
 - (void)leave
 {
     self.count--;
-    NSLog(@"%li leave %@", self.count, self.label);
+//    NSLog(@"%li leave %@", self.count, self.label);
     dispatch_group_leave(self.group);
 }
 
