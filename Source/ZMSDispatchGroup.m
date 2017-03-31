@@ -25,6 +25,7 @@
 @property (nonatomic, copy) NSString* label;
 @property (nonatomic) dispatch_group_t group;
 @property (nonatomic) NSInteger count;
+@property (nonatomic) dispatch_queue_t logQueue;
 
 @end
 
@@ -44,6 +45,7 @@
         self.label = label;
         self.group = group;
         self.logs = [[NSMutableDictionary alloc] init];
+        self.logQueue = dispatch_queue_create("Dispatch group queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -81,19 +83,30 @@
 {
     self.count++;
     NSArray *callstack = [NSThread  callStackSymbols];
-    NSString *stacktrace = [callstack componentsJoinedByString:@"\n"];
-    if (stacktrace != nil) {
-        [self.logs setObject:stacktrace forKey:uuid.UUIDString];
-    } else {
-        [self.logs setObject:@"<empty stack trace>" forKey:uuid.UUIDString];
-    }
+    
+    dispatch_async(self.logQueue, ^{
+        NSMutableString *log = [NSMutableString stringWithFormat:@"\n\nEntering group %p at:\n", self];
+        NSString *stacktrace = [callstack componentsJoinedByString:@"\n"];
+        
+        if (stacktrace != nil) {
+            [log appendString:stacktrace];
+        } else {
+            [log appendString:@"<empty stack trace>"];
+        }
+        
+        [self.logs setObject:log forKey:uuid.UUIDString];
+    });
     dispatch_group_enter(self.group);
 }
 
 - (void)leaveWithUUID:(NSUUID *)uuid
 {
     self.count--;
-    [self.logs removeObjectForKey:uuid.UUIDString];
+    
+    dispatch_async(self.logQueue, ^{
+        [self.logs removeObjectForKey:uuid.UUIDString];
+    });
+
     dispatch_group_leave(self.group);
 }
 
