@@ -24,6 +24,8 @@
 @property (nonatomic, copy) NSString* label;
 @property (nonatomic) dispatch_group_t group;
 @property (nonatomic) NSInteger count;
+@property (nonatomic) NSMutableString *logs;
+@property (nonatomic) dispatch_queue_t logQueue;
 
 @end
 
@@ -42,6 +44,8 @@
     if(self) {
         self.label = label;
         self.group = group;
+        self.logs = [NSMutableString string];
+        self.logQueue = dispatch_queue_create("Dispatch group queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -66,15 +70,24 @@
 - (void)enter
 {
     self.count++;
-//    NSLog(@"%li enter %@", self.count, self.label);
+    NSArray *logs = [NSThread callStackSymbols];
+    dispatch_async(self.logQueue, ^{
+        [self.logs appendFormat:@"\n\nEntering group %p at:\n", self];
+        NSString *joined = [logs componentsJoinedByString:@"\n"];
+        [self.logs appendString: joined];
+    });
     dispatch_group_enter(self.group);
 }
 
 - (void)leave
 {
     self.count--;
-//    NSLog(@"%li leave %@", self.count, self.label);
-    dispatch_group_leave(self.group);
+    NSArray *logs = [NSThread callStackSymbols];
+    dispatch_async(self.logQueue, ^{
+        [self.logs appendFormat:@"\n\nLeaving group %p at:\n", self];
+        NSString *joined = [logs componentsJoinedByString:@"\n"];
+        [self.logs appendString: joined];
+    });    dispatch_group_leave(self.group);
 }
 
 - (void)notifyOnQueue:(dispatch_queue_t)queue block:(dispatch_block_t)block
