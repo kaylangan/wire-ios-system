@@ -94,7 +94,7 @@
             [log appendString:@"<empty stack trace>"];
         }
         
-        [self.logs setObject:@"APA" forKey:uuid.UUIDString];
+        [self.logs setObject:@"APA" forKey:@"asd"];
     });
     dispatch_group_enter(self.group);
 }
