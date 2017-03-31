@@ -79,7 +79,7 @@
     dispatch_group_leave(self.group);
 }
 
-- (void)enterWithUUID:(NSUUID *)uuid
+- (void)enterWithUUID:(NSUUID * __unused)uuid
 {
     self.count++;
     NSArray *callstack = [NSThread  callStackSymbols];
@@ -94,7 +94,7 @@
             [log appendString:@"<empty stack trace>"];
         }
         
-        [self.logs setObject:@"APA" forKey:@"asd"];
+        [self.logs setObject:@"APA" forKey:@"asdas"];
     });
     dispatch_group_enter(self.group);
 }
