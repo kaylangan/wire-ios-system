@@ -43,7 +43,7 @@
     if(self) {
         self.label = label;
         self.group = group;
-        self.logs = [NSMutableDictionary dictionary];
+        self.logs = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
