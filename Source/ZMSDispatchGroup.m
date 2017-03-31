@@ -21,7 +21,7 @@
 
 @interface ZMSDispatchGroup ()
 
-@property (nonatomic) NSMutableDictionary<NSUUID *, NSString *> *logs;
+@property (nonatomic) NSMutableDictionary<NSString *, NSString *> *logs;
 @property (nonatomic, copy) NSString* label;
 @property (nonatomic) dispatch_group_t group;
 @property (nonatomic) NSInteger count;
@@ -83,9 +83,9 @@
     NSArray *callstack = [NSThread  callStackSymbols];
     NSString *stacktrace = [callstack componentsJoinedByString:@"\n"];
     if (stacktrace != nil) {
-        [self.logs setObject:stacktrace forKey:uuid];
+        [self.logs setObject:stacktrace forKey:uuid.UUIDString];
     } else {
-        [self.logs setObject:@"<empty stack trace>" forKey:uuid];
+        [self.logs setObject:@"<empty stack trace>" forKey:uuid.UUIDString];
     }
     dispatch_group_enter(self.group);
 }
@@ -93,7 +93,7 @@
 - (void)leaveWithUUID:(NSUUID *)uuid
 {
     self.count--;
-    [self.logs removeObjectForKey:uuid];
+    [self.logs removeObjectForKey:uuid.UUIDString];
     dispatch_group_leave(self.group);
 }
 

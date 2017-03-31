@@ -22,7 +22,7 @@
 @interface ZMSDispatchGroup : NSObject
 
 @property (nonatomic, readonly, copy) NSString* label;
-@property (nonatomic, readonly, copy) NSMutableDictionary<NSUUID *, NSString *> *logs;
+@property (nonatomic, readonly, copy) NSMutableDictionary<NSString *, NSString *> *logs;
 
 + (instancetype)groupWithLabel:(NSString *)label;
 + (instancetype)groupWithDispatchGroup:(dispatch_group_t)group label:(NSString *)label;
