@@ -80,8 +80,13 @@
 - (void)enterWithUUID:(NSUUID *)uuid
 {
     self.count++;
-    NSString *stacktrace = [[NSThread  callStackSymbols] componentsJoinedByString:@"\n"];
-    [self.logs setObject:stacktrace forKey:uuid];
+    NSArray *callstack = [NSThread  callStackSymbols];
+    NSString *stacktrace = [callstack componentsJoinedByString:@"\n"];
+    if (stacktrace != nil) {
+        [self.logs setObject:stacktrace forKey:uuid];
+    } else {
+        [self.logs setObject:@"<empty stack trace>" forKey:uuid];
+    }
     dispatch_group_enter(self.group);
 }
 
