@@ -2,7 +2,7 @@
 
 [![Wire logo](https://github.com/wireapp/wire/blob/master/assets/header-small.png?raw=true)](https://wire.com/jobs/)
 
-[![Build Status](https://travis-ci.org/wireapp/wire-ios-system.svg?branch=develop)](https://travis-ci.org/wireapp/wire-ios-system)
+[![CircleCI](https://circleci.com/gh/wireapp/wire-ios-system.svg?style=shield)](https://circleci.com/gh/wireapp/wire-ios-system) [![codecov](https://codecov.io/gh/wireapp/wire-ios-system/branch/develop/graph/badge.svg)](https://codecov.io/gh/wireapp/wire-ios-system)
 
 This repository is part of the source code of Wire. You can find more information at [wire.com](https://wire.com) or by contacting opensource@wire.com.
 
@@ -12,6 +12,6 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 # wire-ios-system
 
-This framework is part of Wire iOS SyncEngine. Visit [iOS SyncEngine repository](http://github.com/wireapp/wire-ios-sync-engine) for an overview of the architecture.
+This framework is part of Wire iOS. Additional documentation is available in the [Wire iOS wiki](https://github.com/wireapp/wire-ios/wiki).
 
 The wire-ios-system framework covers the interaction with ASL (Apple System Log), profiling and provides wrappers of some Foundation classes.
